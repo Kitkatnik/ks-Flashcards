@@ -1,42 +1,44 @@
-import React, { useEffect, useState } from "react";
+import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { deleteDeck, listDecks } from "../utils/api/index";
-import Card from "./Card";
 
-const ListDeck = () => {
-    const [ deckList, setDeckList ] = useState([]);
+const ListDeck = ({ deckList, deckToDelete }) => {
 
-    const deckToList = async () => {
-        const list = await listDecks();
-        await setDeckList(list);
-    }
-    
-    const deckToDelete = async (id) => {
-        if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
-            await deleteDeck(id);
-            deckToList();
-        }
-    }
+  return (
+    <Fragment>
+      <Link to="/" role="button" className="btn btn-secondary mb-3">
+        Create Deck
+      </Link>
+      { deckList.length 
+        ? (
+          deckList.map((deck) => {
+            const { id, name, description } = deck;
+            const onDeleteHandler = () => {
+              deckToDelete(id);
+            };
 
-    useEffect( () => {
-        deckToList();
-    }, [])
-
-    return (
-        <React.Fragment>
-            <Link to="/" role="button" className="btn btn-secondary mb-3">Create Deck</Link>
-                {
-                    deckList.length
-                        ? deckList.map( (deck) => {
-                            return (
-                                <div className="card mb-2" key={deck.id}>
-                                    <Card deck={deck} deckToDelete={deckToDelete} />
-                                </div>
-                            )})
-                        : <p>Please create a deck.</p>
-                }
-        </React.Fragment>
-    )
-}
+            return (
+              <div className="card mb-2" key={id}>
+                <div className="card-body">
+                  <div className="d-flex justify-content-between">
+                    <h5 className="card-title">{name}</h5>
+                    <small className="text-mute">{deck.cards.length} cards</small>
+                  </div>
+                  <p className="card-text text-muted">{description}</p>
+                  <div className="d-flex justify-content-between">
+                    <div>
+                      <Link to="/" role="button" className="btn btn-secondary card-link">View</Link>
+                      <Link to="/" role="button" className="btn btn-primary card-link">Study</Link>
+                    </div>
+                    <button name="delete" className="btn btn-danger card-link" onClick={onDeleteHandler}>Delete</button>
+                  </div>
+                </div>
+              </div>
+            );
+          })) 
+        : (<p>Please create a deck.</p>)
+      }
+    </Fragment>
+  );
+};
 
 export default ListDeck;
