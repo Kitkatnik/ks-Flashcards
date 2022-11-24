@@ -1,30 +1,39 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { listDecks } from "../utils/api/index";
+import { deleteDeck, listDecks } from "../utils/api/index";
 import Card from "./Card";
 
 const ListDeck = () => {
     const [ deckList, setDeckList ] = useState([]);
 
-    useEffect( () => {
-        const setDeck = async() => {
-            const list = await listDecks();
-            await setDeckList(list);
+    const deckToList = async () => {
+        const list = await listDecks();
+        await setDeckList(list);
+    }
+    
+    const deckToDelete = async (id) => {
+        if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+            await deleteDeck(id);
+            deckToList();
         }
-        setDeck();
+    }
+
+    useEffect( () => {
+        deckToList();
     }, [])
 
     return (
         <React.Fragment>
             <Link to="/" role="button" className="btn btn-secondary mb-3">Create Deck</Link>
                 {
-                    deckList.map( ({id, name, description}) => {
-                        return (
-                            <div className="card mb-2" key={id}>
-                                <Card name={name} description={description} />
-                            </div>
-                        )
-                    })
+                    deckList.length
+                        ? deckList.map( (deck) => {
+                            return (
+                                <div className="card mb-2" key={deck.id}>
+                                    <Card deck={deck} deckToDelete={deckToDelete} />
+                                </div>
+                            )})
+                        : <p>Please create a deck.</p>
                 }
         </React.Fragment>
     )
