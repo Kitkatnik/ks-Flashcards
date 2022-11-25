@@ -5,7 +5,7 @@ const ListDeck = ({ deckList, deckToDelete }) => {
 
   return (
     <Fragment>
-      <Link to="/" role="button" className="btn btn-secondary mb-3">
+      <Link to="/decks/new" role="button" className="btn btn-secondary mb-3">
         Create Deck
       </Link>
       { deckList.length 

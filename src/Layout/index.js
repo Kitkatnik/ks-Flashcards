@@ -10,7 +10,8 @@ import {
 
 import { 
   listDecks, 
-  deleteDeck 
+  deleteDeck,
+  createDeck
 } from "../utils/api/index";
 
 import Header from "./Header";
@@ -42,6 +43,15 @@ function Layout() {
       console.log(error);
     }
   }
+
+  const deckToCreate = async (deck) => {
+    try {
+      await createDeck(deck);
+      deckToList();
+    } catch(error){
+      console.log(error);
+    }
+  }
   
   useEffect( () => {
     const abort = new AbortController();
@@ -58,7 +68,7 @@ function Layout() {
       <div className="container">
         <Switch>
           <Route path="/" exact><ListDeck deckList={deckList} deckToDelete={deckToDelete} /></Route>
-          <Route path="/decks/new"><CreateDeck /></Route>
+          <Route path="/decks/new"><CreateDeck deckToCreate={deckToCreate} /></Route>
           {/* <Route path="/"><ViewDeck /></Route> */}
           {/* <Route path="/decks/:deckId"><StudyDeck /></Route>  */}
           {/* <Route path="/decks/:deckId/edit"><EditDeck /></Route> */}
