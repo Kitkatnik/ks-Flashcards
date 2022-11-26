@@ -26,7 +26,7 @@ const ListDeck = ({ deckList, deckToDelete }) => {
                   <p className="card-text text-muted">{description}</p>
                   <div className="d-flex justify-content-between">
                     <div>
-                      <Link to="/" role="button" className="btn btn-secondary card-link">View</Link>
+                      <Link to={`/decks/${id}`} role="button" className="btn btn-secondary card-link">View</Link>
                       <Link to="/" role="button" className="btn btn-primary card-link">Study</Link>
                     </div>
                     <button name="delete" className="btn btn-danger card-link" onClick={onDeleteHandler}>Delete</button>
