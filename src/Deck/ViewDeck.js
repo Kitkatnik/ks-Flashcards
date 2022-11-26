@@ -17,10 +17,11 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
     useEffect( () => {
         const abort = new AbortController();
         const signal = abort.signal;
-        
+
         getCurrentDeck(deckId, signal);
 
         return () => abort.abort();
+        // eslint-disable-next-line
     }, [])
 
     return (

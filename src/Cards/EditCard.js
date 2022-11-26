@@ -1,6 +1,8 @@
+import CardInput from "./CardInput";
+
 const EditCard = () => {
     return (
-        <p>This is to add a card</p>
+        <CardInput />
     )
 }
 
