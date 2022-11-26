@@ -1,5 +1,6 @@
 import { Fragment, useState } from 'react';
-import { Link,useHistory, useRouteMatch } from'react-router-dom';
+import { Link, useHistory } from'react-router-dom';
+import { listDecks } from '../utils/api';
 
 const CreateDeck = ({deckToCreate}) => {
     const history = useHistory();
@@ -10,16 +11,17 @@ const CreateDeck = ({deckToCreate}) => {
     const onNameChange = (event) => setDeckName(event.target.value)
     const onDescChange = (event) => setDeckDescription(event.target.value)
 
-    const onSubmitHandler = (event) => {
+    const onSubmitHandler = async (event) => {
         event.preventDefault();
 
-        deckToCreate({name: deckName, description: deckDescription});
-
+        await deckToCreate({name: deckName, description: deckDescription});
+        const newDeck = await listDecks();
+        const currDeck = newDeck[newDeck.length - 1]
+        
         setDeckName("");
         setDeckDescription("");
-        console.log(history)
-        console.log(useRouteMatch)
-        // send them to /deck/:deckId 
+
+        history.push(`/decks/${currDeck.id}`);
     }
 
     return (
