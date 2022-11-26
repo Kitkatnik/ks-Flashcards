@@ -1,10 +1,15 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useHistory } from "react-router-dom";
 
-const ViewDeck = ({ currentDeck, cardList, cardToDelete, getCurrentDeck }) => {
-
+const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToDelete }) => {
+    const history = useHistory();
     const deckId = useParams().deckId;
     const { name, description } = currentDeck;
+
+    const onDeckDeleteHandler = () => {
+        deckToDelete(deckId);
+        history.push("/");
+    };
 
     useEffect( () => {
         const abort = new AbortController();
@@ -13,7 +18,7 @@ const ViewDeck = ({ currentDeck, cardList, cardToDelete, getCurrentDeck }) => {
         getCurrentDeck(deckId, signal);
 
         return () => abort.abort();
-    }, [])
+    }, [currentDeck])
 
     return (
         <div>
@@ -31,14 +36,14 @@ const ViewDeck = ({ currentDeck, cardList, cardToDelete, getCurrentDeck }) => {
                     <button type="button" className="btn btn-primary mr-2"><span className="oi oi-book"></span> Study</button>
                     <button type="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</button>
                 </div>
-                <button type="button" className="btn btn-danger"><span className="oi oi-trash"></span></button>
+                <button type="button" className="btn btn-danger" onClick={onDeckDeleteHandler}><span className="oi oi-trash"></span></button>
             </div>
             <h2>Cards</h2>
             {
                 cardList.length 
                     ? cardList.map((card) => {
                         const { id, front, back } = card;
-                        const onDeleteHandler = () => {
+                        const onCardDeleteHandler = () => {
                             cardToDelete(id);
                         };
 
@@ -55,7 +60,7 @@ const ViewDeck = ({ currentDeck, cardList, cardToDelete, getCurrentDeck }) => {
                                     </div>
                                     <div className="float-right">
                                         <button type="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</button>
-                                        <button type="button" className="btn btn-danger" onClick={onDeleteHandler}><span className="oi oi-trash"></span></button>
+                                        <button type="button" className="btn btn-danger" onClick={onCardDeleteHandler}><span className="oi oi-trash"></span></button>
                                     </div>
                                 </div>
                             </div>

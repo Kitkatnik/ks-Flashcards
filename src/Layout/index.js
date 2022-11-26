@@ -39,8 +39,9 @@ function Layout() {
   }
 
   const cardToDelete = async (id) => {
-    if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+    if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
       await deleteCard(id);
+      getCurrentDeck();
   }
   }
 
@@ -94,10 +95,11 @@ function Layout() {
           </Route>
           <Route path="/decks/:deckId">
             <ViewDeck 
-              currentDeck={currentDeck} 
               cardList={cardList}
-              cardToDelete={cardToDelete} 
+              currentDeck={currentDeck} 
               getCurrentDeck={getCurrentDeck}
+              cardToDelete={cardToDelete} 
+              deckToDelete={deckToDelete}
             />
           </Route>
           {/* <Route path="/decks/:deckId"><StudyDeck /></Route>  */}
