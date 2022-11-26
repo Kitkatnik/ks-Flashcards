@@ -6,7 +6,7 @@ const ListDeck = ({ deckList, deckToDelete }) => {
   return (
     <Fragment>
       <Link to="/decks/new" role="button" className="btn btn-secondary mb-3">
-        Create Deck
+      <span className="oi oi-plus"></span> Create Deck
       </Link>
       { deckList.length 
         ? (
@@ -26,10 +26,10 @@ const ListDeck = ({ deckList, deckToDelete }) => {
                   <p className="card-text text-muted">{description}</p>
                   <div className="d-flex justify-content-between">
                     <div>
-                      <Link to={`/decks/${id}`} role="button" className="btn btn-secondary card-link">View</Link>
-                      <Link to="/" role="button" className="btn btn-primary card-link">Study</Link>
+                      <Link to={`/decks/${id}`} role="button" className="btn btn-secondary card-link"><span className="oi oi-eye"></span> View</Link>
+                      <Link to="/" role="button" className="btn btn-primary card-link"><span className="oi oi-book"></span> Study</Link>
                     </div>
-                    <button name="delete" className="btn btn-danger card-link" onClick={onDeleteHandler}>Delete</button>
+                    <button name="delete" className="btn btn-danger card-link" onClick={onDeleteHandler}><span className="oi oi-trash"></span></button>
                   </div>
                 </div>
               </div>

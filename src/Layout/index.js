@@ -11,7 +11,9 @@ import {
 import { 
   listDecks, 
   deleteDeck,
-  createDeck
+  createDeck,
+  deleteCard,
+  readDeck
 } from "../utils/api/index";
 
 import Header from "./Header";
@@ -26,13 +28,20 @@ import ViewDeck from "../Deck/ViewDeck";
 function Layout() {
 
   const [ deckList, setDeckList ] = useState([]);
-  // const [ currentDeck, setCurrentDeck ] = useState( { cards: [] });
+  const [ currentDeck, setCurrentDeck ] = useState({});
+  const [ cardList, setCardList ] = useState({});
 
   const deckToDelete = async (id) => {
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
         await deleteDeck(id);
         deckToList();
     }
+  }
+
+  const cardToDelete = async (id) => {
+    if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+      await deleteCard(id);
+  }
   }
 
   const deckToList = async (signal) => {
@@ -43,6 +52,16 @@ function Layout() {
       console.log(error);
     }
   }
+
+  const getCurrentDeck = async (id, signal) => {
+    try{
+        const list = await readDeck(id, signal);
+        setCurrentDeck(list);
+        setCardList(list.cards);
+    } catch(error){
+        console.log(error);
+    }
+}
 
   const deckToCreate = async (deck) => {
     try {
@@ -67,9 +86,20 @@ function Layout() {
       <Header />
       <div className="container">
         <Switch>
-          <Route path="/" exact><ListDeck deckList={deckList} deckToDelete={deckToDelete} /></Route>
-          <Route path="/decks/new"><CreateDeck deckToCreate={deckToCreate} /></Route>
-          <Route path="/decks/:deckId"><ViewDeck /></Route>
+          <Route path="/" exact>
+            <ListDeck deckList={deckList} deckToDelete={deckToDelete} />
+          </Route>
+          <Route path="/decks/new">
+            <CreateDeck deckToCreate={deckToCreate} />
+          </Route>
+          <Route path="/decks/:deckId">
+            <ViewDeck 
+              currentDeck={currentDeck} 
+              cardList={cardList}
+              cardToDelete={cardToDelete} 
+              getCurrentDeck={getCurrentDeck}
+            />
+          </Route>
           {/* <Route path="/decks/:deckId"><StudyDeck /></Route>  */}
           {/* <Route path="/decks/:deckId/edit"><EditDeck /></Route> */}
           <Route><NotFound /></Route>
