@@ -1,6 +1,6 @@
 const StudyDeck = () => {
     return (
-        <p>Something</p>
+        <p>Study deck</p>
     )
 }
 

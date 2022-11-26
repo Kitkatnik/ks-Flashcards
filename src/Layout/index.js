@@ -21,8 +21,8 @@ import NotFound from "./NotFound";
 import CreateDeck from "../Deck/CreateDeck";
 import ListDeck from "../Deck/ListDeck";
 import ViewDeck from "../Deck/ViewDeck";
-// import StudyDeck from "../Deck/StudyDeck";
-// import EditDeck from "../Deck/EditDeck";
+import StudyDeck from "../Deck/StudyDeck";
+import EditDeck from "../Deck/EditDeck";
 
 
 function Layout() {
@@ -93,6 +93,12 @@ function Layout() {
           <Route path="/decks/new">
             <CreateDeck deckToCreate={deckToCreate} />
           </Route>
+          <Route path="/decks/:deckId/study">
+            <StudyDeck />
+          </Route> 
+          <Route path="/decks/:deckId/edit">
+            <EditDeck />
+          </Route>
           <Route path="/decks/:deckId">
             <ViewDeck 
               cardList={cardList}
@@ -102,8 +108,6 @@ function Layout() {
               deckToDelete={deckToDelete}
             />
           </Route>
-          {/* <Route path="/decks/:deckId"><StudyDeck /></Route>  */}
-          {/* <Route path="/decks/:deckId/edit"><EditDeck /></Route> */}
           <Route><NotFound /></Route>
         </Switch>
       </div>
