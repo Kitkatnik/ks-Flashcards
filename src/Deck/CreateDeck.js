@@ -13,8 +13,10 @@ const CreateDeck = ({deckToCreate}) => {
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-
-        await deckToCreate({name: deckName, description: deckDescription});
+        
+        // QUESTION: Why doesn't this return the ID like it does in postman?
+        await deckToCreate({name: deckName, description: deckDescription})
+        // REVIEW: Get the ID directly from the response call and remove 2 next lines
         const newDeck = await listDecks();
         const currDeck = newDeck[newDeck.length - 1]
         

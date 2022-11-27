@@ -5,15 +5,10 @@ import { createCard, updateCard } from "../utils/api";
 const CardInput = ({ cardValue }) =>{
     const { url } = useRouteMatch();
     const prevUrl = url.match(/\/[a-zA-Z]+\/\d+/gi);
-    const deckId = url.match(/\d+/g);
     const history = useHistory();
-    console.log(url);
-    console.log(prevUrl);
-    console.log(deckId);
 
     // SETTING STATES
-    const [ card, setCard ] = useState(cardValue)
-    const { front, back } = card;
+    const { id, front, back, deckId } = cardValue;
     const [ frontCard, setFrontCard ] = useState(front);
     const [ backCard, setBackCard ] = useState(back);
 
@@ -29,7 +24,7 @@ const CardInput = ({ cardValue }) =>{
         event.preventDefault();
 
         if (event.target.submitButton){
-            await updateCard(deckId, {front: frontCard, back: backCard});
+            await updateCard(deckId, {id: id, front: frontCard, back: backCard, deckId: deckId});
             history.push(`${prevUrl}`);
         } else {
             await createCard(deckId, {front: frontCard, back: backCard});
@@ -88,3 +83,6 @@ const CardInput = ({ cardValue }) =>{
 }
 
 export default CardInput;
+
+
+// bug, review, question, todo, remove, ref

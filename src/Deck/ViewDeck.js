@@ -40,7 +40,7 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
                         <div>
                             <Link to={`${url}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
                             <Link to={`${url}/study`} role="button" className="btn btn-primary mr-2"><span className="oi oi-book"></span> Study</Link>
-                            <Link to={`${url}/add`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
+                            <Link to={`${url}/cards/new`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
                         </div>
                         <button type="button" className="btn btn-danger" onClick={onDeckDeleteHandler}><span className="oi oi-trash"></span></button>
                     </div>
@@ -65,7 +65,7 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
                                                 </div>
                                             </div>
                                             <div className="float-right">
-                                                <button type="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</button>
+                                                <Link to={`${url}/cards/${id}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
                                                 <button type="button" className="btn btn-danger" onClick={onCardDeleteHandler}><span className="oi oi-trash"></span></button>
                                             </div>
                                         </div>
@@ -77,8 +77,8 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
                 </div>
 
             </Route>
-            <Route path={`${url}/add`}><AddCard /></Route>
-            <Route path={`${url}/edit`}><EditCard /></Route>
+            <Route path={`${url}/cards/:cardId/edit`}><EditCard /></Route>
+            <Route path={`${url}/cards/new`}><AddCard /></Route>
         </Switch>
     );
 };
