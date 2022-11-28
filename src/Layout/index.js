@@ -10,10 +10,11 @@ import {
 
 import { 
   listDecks, 
-  deleteDeck,
+  readDeck,
   createDeck,
+  updateDeck,
+  deleteDeck,
   deleteCard,
-  readDeck
 } from "../utils/api/index";
 
 import Header from "./Header";
@@ -29,20 +30,12 @@ function Layout() {
 
   const [ deckList, setDeckList ] = useState([]);
   const [ currentDeck, setCurrentDeck ] = useState({});
-  const [ cardList, setCardList ] = useState({});
 
   const deckToDelete = async (id) => {
     if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
         await deleteDeck(id);
         deckToList();
     }
-  }
-
-  const cardToDelete = async (id) => {
-    if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
-      await deleteCard(id);
-      getCurrentDeck();
-  }
   }
 
   const deckToList = async (signal) => {
@@ -54,15 +47,14 @@ function Layout() {
     }
   }
 
-  const getCurrentDeck = async (id, signal) => {
+  const deckToRead = async (id, signal) => {
     try{
         const list = await readDeck(id, signal);
         setCurrentDeck(list);
-        setCardList(list.cards);
     } catch(error){
         console.log(error);
     }
-}
+  }
 
   const deckToCreate = async (deck) => {
     try {
@@ -71,6 +63,24 @@ function Layout() {
     } catch(error){
       console.log(error);
     }
+  }
+
+  const deckToUpdate = async (updatedDeck) => {
+    try {
+      await updateDeck(updatedDeck);
+      deckToList();
+    } catch(error){
+      console.log(error);
+    }
+  }
+
+  // CARDS
+
+  const cardToDelete = async (id) => {
+    if(window.confirm("Delete this card?\n\nYou will not be able to recover it.")){
+      await deleteCard(id);
+      deckToRead();
+  }
   }
   
   useEffect( () => {
@@ -97,15 +107,14 @@ function Layout() {
             <StudyDeck />
           </Route> 
           <Route path="/decks/:deckId/edit">
-            <EditDeck />
+            <EditDeck deckToUpdate={deckToUpdate} />
           </Route>
           <Route path="/decks/:deckId">
             <ViewDeck 
-              cardList={cardList}
               currentDeck={currentDeck} 
-              getCurrentDeck={getCurrentDeck}
-              cardToDelete={cardToDelete} 
+              deckToRead={deckToRead}
               deckToDelete={deckToDelete}
+              cardToDelete={cardToDelete} 
             />
           </Route>
           <Route><NotFound /></Route>

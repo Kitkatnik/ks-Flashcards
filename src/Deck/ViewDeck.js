@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link, Switch, Route, useParams, useHistory, useRouteMatch } from "react-router-dom";
 import AddCard from "../Cards/AddCard";
 import EditCard from "../Cards/EditCard";
 
-const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToDelete }) => {
+const ViewDeck = ({ currentDeck, deckToRead, cardToDelete, deckToDelete }) => {
     const history = useHistory();
     const { url } = useRouteMatch();
-    const deckId = useParams().deckId;
-    const { name, description } = currentDeck;
+    const { deckId } = useParams();
+    const { name, description, cards } = currentDeck;
+
+    const [ currentCards, setCurrentCards ] = useState([]);
 
     const onDeckDeleteHandler = () => {
         deckToDelete(deckId);
@@ -17,11 +19,20 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
     useEffect( () => {
         const abort = new AbortController();
         const signal = abort.signal;
+        
+        const setDeckAndCards = async () => {
+            await deckToRead(deckId, signal);
+            console.log(currentDeck);
+            if(cards){
+                setCurrentCards(cards);
 
-        getCurrentDeck(deckId, signal);
+                console.log(cards);
+                console.log(currentCards);
+            }
+        }
+        setDeckAndCards();
 
         return () => abort.abort();
-        // eslint-disable-next-line
     }, [])
 
     return (
@@ -45,9 +56,9 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
                         <button type="button" className="btn btn-danger" onClick={onDeckDeleteHandler}><span className="oi oi-trash"></span></button>
                     </div>
                     <h2>Cards</h2>
-                    {
-                        cardList.length 
-                            ? cardList.map((card) => {
+                    {/* {
+                        currentCards.length 
+                            ? currentCards.map((card) => {
                                 const { id, front, back } = card;
                                 const onCardDeleteHandler = () => {
                                     cardToDelete(id);
@@ -73,7 +84,7 @@ const ViewDeck = ({ cardList, currentDeck, getCurrentDeck, cardToDelete, deckToD
                                 )
                             })
                             : (<p>Please create a card</p>)
-                    }
+                    } */}
                 </div>
 
             </Route>
