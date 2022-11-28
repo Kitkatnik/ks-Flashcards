@@ -1,20 +1,44 @@
-import { Fragment } from "react";
+import { Fragment, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { deleteDeck, listDecks } from "../utils/api";
 
-const ListDeck = ({ deckList, deckToDelete }) => {
+const ListDecks = () => {
+  const [ decks, setDecks ] = useState({name: "", description: "", cards: []})
+
+  const onDeleteHandler = async (id) => {
+    const abort = new AbortController();
+    const signal = abort.signal;
+
+    if(window.confirm("Delete this deck?\n\nYou will not be able to recover it.")){
+      await deleteDeck(id, signal);
+      listDecks(signal).then(setDecks);
+    }
+    
+    return () => abort.abort();
+  }
+
+  useEffect( () => {
+    const abort = new AbortController();
+    const signal = abort.signal;
+
+    const listingDecks = async() => listDecks(signal).then(setDecks)
+    listingDecks();
+
+    return () => abort.abort();
+  },[])
 
   return (
     <Fragment>
       <Link to="/decks/new" role="button" className="btn btn-secondary mb-3">
       <span className="oi oi-plus"></span> Create Deck
       </Link>
-      { deckList.length 
+      { decks.length 
         ? (
-          deckList.map((deck) => {
+          decks.map((deck) => {
             const { id, name, description } = deck;
-            const onDeleteHandler = () => {
-              deckToDelete(id);
-            };
+            const deckToDelete = () => {
+              onDeleteHandler(id);
+            }
 
             return (
               <div className="card mb-2" key={id}>
@@ -29,7 +53,7 @@ const ListDeck = ({ deckList, deckToDelete }) => {
                       <Link to={`/decks/${id}`} role="button" className="btn btn-secondary card-link"><span className="oi oi-eye"></span> View</Link>
                       <Link to={`/decks/${id}/study`} role="button" className="btn btn-primary card-link"><span className="oi oi-book"></span> Study</Link>
                     </div>
-                    <button name="delete" className="btn btn-danger card-link" onClick={onDeleteHandler}><span className="oi oi-trash"></span></button>
+                    <button name="delete" className="btn btn-danger card-link" onClick={deckToDelete}><span className="oi oi-trash"></span></button>
                   </div>
                 </div>
               </div>
@@ -41,4 +65,4 @@ const ListDeck = ({ deckList, deckToDelete }) => {
   );
 };
 
-export default ListDeck;
+export default ListDecks;

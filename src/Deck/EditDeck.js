@@ -1,25 +1,32 @@
 import { Fragment, useEffect, useState } from 'react';
-import { Link, useHistory, useParams, useRouteMatch } from'react-router-dom';
-import { readDeck } from '../utils/api';
+import { Link, useHistory, useParams } from'react-router-dom';
+import { readDeck, updateDeck } from '../utils/api';
+import DeckForm from './DeckForm';
 
-const EditDeck = ({deckToUpdate}) => {
+const EditDeck = () => {
     const history = useHistory();
     const { deckId } = useParams();
-    const { url } = useRouteMatch();
 
-    const [ deckName, setDeckName ] = useState("");
-    const [ deckDescription, setDeckDescription ] = useState("");
+    const deckUrl = `/decks/${deckId}`
 
-    const onNameChange = (event) => setDeckName(event.target.value)
-    const onDescChange = (event) => setDeckDescription(event.target.value)
+    const [ updatedDeck, setUpdatedDeck ] = useState({
+        id: 0,
+        name: '',
+        description: '',
+    });
+
+    const onChangeHandler = event => {
+        setUpdatedDeck({
+            ...updatedDeck,
+            [event.target.name]: event.target.value
+        })
+    }
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-        await deckToUpdate({name: deckName, description: deckDescription})
-        history.push(`/decks/${deckId}`);
-    }
-    
-    const onCancelHandler = () => {
+
+        await updateDeck(updatedDeck);
+
         history.goBack();
     }
     
@@ -29,13 +36,12 @@ const EditDeck = ({deckToUpdate}) => {
 
         const readingDeck = async() => {
             const list = await readDeck(deckId, signal);
-            await setDeckName(list.name)
-            await setDeckDescription(list.description)
+            setUpdatedDeck({id: list.id, name: list.name, description: list.description})
         }
         readingDeck();
 
         return () => abort.abort();
-    }, [])
+    }, [deckId])
 
     return (
         <Fragment>
@@ -45,43 +51,19 @@ const EditDeck = ({deckToUpdate}) => {
                         <Link to="/"><span className="oi oi-home"></span> Home</Link>
                     </li>
                     <li className="breadcrumb-item">
-                        <Link to={url}>{deckName}</Link>
+                        <Link to={deckUrl}>{updatedDeck.name}</Link>
                     </li>
                     <li className="breadcrumb-item active" aria-current="page">Edit Deck</li>
                 </ol>
             </nav>
 
-            <h1>Create Deck</h1>
-            <form onSubmit={onSubmitHandler}>
-                <div className="form-group">
-                    <label htmlFor="name">Name</label>
-                    <input 
-                        type="text" 
-                        name="name" 
-                        className="form-control" 
-                        id="name" 
-                        placeholder="Deck Name" 
-                        onChange={onNameChange}
-                        value={deckName}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="description">Description</label>
-                    <textarea 
-                        className="form-control" 
-                        id="description" 
-                        name="description" 
-                        rows="4" 
-                        placeholder="Brief description of the deck"
-                        onChange={onDescChange}
-                        value={deckDescription}
-                    ></textarea>
-                </div>
-                <div>
-                    <button onClick={onCancelHandler} className="btn btn-secondary mr-2">Cancel</button>
-                    <button type="submit" className="btn btn-primary">Submit</button>
-                </div>
-            </form>
+            <h1>Edit Deck</h1>
+            <DeckForm 
+                deck={updatedDeck} 
+                onChangeHandler={onChangeHandler} 
+                onSubmitHandler={onSubmitHandler} 
+                url={deckUrl}
+            />
         </Fragment>
     )
 }
