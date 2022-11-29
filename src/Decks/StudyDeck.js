@@ -48,7 +48,7 @@ const StudyDeck = () => {
         if(totalCards < 3){
             return(
                 <div>
-                    <h4>Not enough cards.</h4>
+                    <h4>Not enough cards</h4>
                     <p>You need at least 3 cards to study. There are {totalCards} cards in this deck.</p>
                     <Link to={`/decks/${deckId}/cards/new`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
                 </div>
@@ -121,87 +121,8 @@ const StudyDeck = () => {
             </nav>
             <h2>Study: {deck.name}</h2>
             {showCards()}
-            <hr />
-            <h3>This works</h3>
-            <ol>
-                <li><b>Current Number:</b> {cardKeeper.currentNum}</li>
-                <li><b>Total Cards:</b> {totalCards}</li>
-                <li><b>Current Card Front:</b> {`${currentCard.front}`}</li>
-                <li><b>Current Card Back:</b> {`${currentCard.back}`}</li>
-                <li><b>Card Flipped:</b> {cardKeeper.cardFlipped ? "yes" : "no"}</li>
-            </ol>
         </div>
     )
-
-    
-//     const [ cardKeeper, setCardKeeper ] = useState({
-//         currentNumber: 0,
-//         numberOfCards: 0,
-//         currentCard: {},
-//         cardFlipped: false
-//     })
-
-//     const { name, cards } = deck;
-//     const { currentNumber, numberOfCards, currentCard, cardFlipped } = cardKeeper;
-
-//     // console.log(currentNumber, numberOfCards, currentCard, cardFlipped);
-
-//     const showButtons = () => {
-//         if(currentNumber === 0){
-//             return <button className="btn btn-secondary mr-2">Flip</button>
-//         }
-//     }
-
-
-//     const showSide = () => {
-//         return cardFlipped
-//             ? currentCard.back
-//             : currentCard.front
-//     }
-
-//     const notEnoughCards = () => {
-//         return (
-//             <div>
-//                 <h4>Not enough cards.</h4>
-//                 <p>You need at least 3 cards to study. There are {numberOfCards} cards in this deck.</p>
-//                 <Link to={`/decks/${deckId}/cards/new`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
-//             </div>
-//         )
-//     }
-
-//     const enoughCards = () => {
-//         return (
-//             <div className="card mb-2">
-//                 <div className="card-body">
-//                 <h5 className="card-title">Card {currentNumber + 1} of {numberOfCards}</h5>
-//                     <p>{showSide()}</p>
-//                     {showButtons()}
-//                 </div>
-//             </div>
-//         )
-//     }
-
-//     const showCards = () => {
-//         if(numberOfCards < 3){
-//             return notEnoughCards();
-//         } else {
-//             return enoughCards();
-//         }
-//     }
-
-//     const settingKeeper = () => {
-//         setCardKeeper({
-//             ...cardKeeper,
-//             numberOfCards: cards.length,
-//             currentCard: cards[currentNumber]
-//         })
-//     }
-//     return (
-//         <div>
-//             <h2>Study: {name}</h2>
-//             {showCards()}
-//         </div>
-//     )
 }
 
 export default StudyDeck;

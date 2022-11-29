@@ -11,8 +11,8 @@
       "id": 2
     },
     {
-      "name": "French",
-      "description": "Learn a new language!",
+      "name": "Mock Study Deck 13",
+      "description": "MDS13",
       "id": 3
     }
   ],
@@ -46,24 +46,6 @@
       "back": "Renders the first matching child <Route> ",
       "deckId": 2,
       "id": 5
-    },
-    {
-      "front": "Bonjour",
-      "back": "Hello",
-      "deckId": 3,
-      "id": 6
-    },
-    {
-      "front": "Au revoir",
-      "back": "Good bye",
-      "deckId": 3,
-      "id": 7
-    },
-    {
-      "front": "Merci",
-      "back": "Thank you",
-      "deckId": 3,
-      "id": 8
     }
   ]
 }
