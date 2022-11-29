@@ -12,6 +12,7 @@ import ListDecks from "../Decks/ListDecks";
 import CreateDeck from "../Decks/CreateDeck";
 import ViewDeck from "../Decks/ViewDeck";
 import EditDeck from "../Decks/EditDeck";
+import StudyDeck from "../Decks/StudyDeck";
 
 
 function Layout() {
@@ -24,6 +25,7 @@ function Layout() {
           <Route path="/" exact><ListDecks /></Route>
           <Route path="/decks/new"><CreateDeck /></Route>
           <Route path="/decks/:deckId/edit"><EditDeck /></Route>
+          <Route path="/decks/:deckId/study"><StudyDeck /></Route> 
           <Route path="/decks/:deckId"><ViewDeck /></Route>
           <Route><NotFound /></Route>
         </Switch>

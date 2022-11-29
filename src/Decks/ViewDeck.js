@@ -3,7 +3,6 @@ import { Link, Switch, Route, useParams, useHistory } from "react-router-dom";
 import { readDeck, deleteDeck, deleteCard } from "../utils/api";
 import CreateCard from "../Cards/CreateCard";
 import EditCard from "../Cards/EditCard";
-import StudyDeck from "../Decks/StudyDeck";
 
 const ViewDeck = () => {
     const history = useHistory();
@@ -115,12 +114,6 @@ const ViewDeck = () => {
                     setDeck={setDeck} 
                 />
             </Route>
-            <Route path={`${deckUrl}/study`}>
-                <StudyDeck 
-                    deck={deck} 
-                    url={deckUrl} 
-                />
-            </Route> 
         </Switch>
     );
 };
