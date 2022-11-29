@@ -39,7 +39,7 @@ const CreateDeck = () => {
                 </ol>
             </nav>
 
-            <h1>Create Deck</h1>
+            <h3>Create Deck</h3>
             <DeckForm 
                 deck={newDeck} 
                 onChangeHandler={onChangeHandler} 

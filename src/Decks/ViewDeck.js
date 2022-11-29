@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link, Switch, Route, useParams, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, Switch, Route, useParams, useHistory } from "react-router-dom";
 import { readDeck, deleteDeck, deleteCard } from "../utils/api";
+import CreateCard from "../Cards/CreateCard";
+import EditCard from "../Cards/EditCard";
+import StudyDeck from "../Decks/StudyDeck";
 
 const ViewDeck = () => {
     const history = useHistory();
-    const { url } = useRouteMatch();
     const { deckId } = useParams();
+
+    const deckUrl = `/decks/${ deckId }`
 
     const [ deck, setDeck ] = useState({name: "", description: "", cards: []});
     const { name, description, cards } = deck;
@@ -46,7 +50,7 @@ const ViewDeck = () => {
 
     return (
         <Switch>
-            <Route path={`${url}`} exact>
+            <Route path={`${deckUrl}`} exact>
                 <div>
                     <nav aria-label="breadcrumb">
                         <ol className="breadcrumb">
@@ -58,9 +62,9 @@ const ViewDeck = () => {
                     <p>{description}</p>
                     <div className="d-flex justify-content-between mb-4">
                         <div>
-                            <Link to={`${url}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
-                            <Link to={`${url}/study`} role="button" className="btn btn-primary mr-2"><span className="oi oi-book"></span> Study</Link>
-                            <Link to={`${url}/cards/new`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
+                            <Link to={`${deckUrl}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
+                            <Link to={`${deckUrl}/study`} role="button" className="btn btn-primary mr-2"><span className="oi oi-book"></span> Study</Link>
+                            <Link to={`${deckUrl}/cards/new`} role="button" className="btn btn-primary"><span className="oi oi-plus"></span> Add Cards</Link>
                         </div>
                         <button type="button" className="btn btn-danger" onClick={onDeckDeleteHandler}><span className="oi oi-trash"></span></button>
                     </div>
@@ -85,7 +89,7 @@ const ViewDeck = () => {
                                                 </div>
                                             </div>
                                             <div className="float-right">
-                                                <Link to={`${url}/cards/${id}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
+                                                <Link to={`${deckUrl}/cards/${id}/edit`} role="button" className="btn btn-secondary mr-2"><span className="oi oi-pencil"></span> Edit</Link>
                                                 <button type="button" className="btn btn-danger" onClick={cardToDelete}><span className="oi oi-trash"></span></button>
                                             </div>
                                         </div>
@@ -97,8 +101,26 @@ const ViewDeck = () => {
                 </div>
 
             </Route>
-            {/* <Route path={`${url}/cards/:cardId/edit`}><EditCard /></Route>
-            <Route path={`${url}/cards/new`}><AddCard /></Route> */}
+            <Route path={`${deckUrl}/cards/:cardId/edit`}>
+                <EditCard 
+                    deck={deck} 
+                    url={deckUrl} 
+                    setDeck={setDeck} 
+                />
+            </Route>
+            <Route path={`${deckUrl}/cards/new`}>
+                <CreateCard 
+                    deck={deck} 
+                    url={deckUrl} 
+                    setDeck={setDeck} 
+                />
+            </Route>
+            <Route path={`${deckUrl}/study`}>
+                <StudyDeck 
+                    deck={deck} 
+                    url={deckUrl} 
+                />
+            </Route> 
         </Switch>
     );
 };

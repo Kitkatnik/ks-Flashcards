@@ -10,7 +10,7 @@ const EditDeck = () => {
     const deckUrl = `/decks/${deckId}`
 
     const [ updatedDeck, setUpdatedDeck ] = useState({
-        id: 0,
+        id: deckId,
         name: '',
         description: '',
     });
@@ -57,7 +57,7 @@ const EditDeck = () => {
                 </ol>
             </nav>
 
-            <h1>Edit Deck</h1>
+            <h3>Edit Deck</h3>
             <DeckForm 
                 deck={updatedDeck} 
                 onChangeHandler={onChangeHandler} 
