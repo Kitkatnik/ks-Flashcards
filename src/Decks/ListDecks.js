@@ -1,4 +1,4 @@
-import { Fragment, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { deleteDeck, listDecks } from "../utils/api";
 
@@ -28,7 +28,7 @@ const ListDecks = () => {
   },[])
 
   return (
-    <Fragment>
+    <React.Fragment>
       <Link to="/decks/new" role="button" className="btn btn-secondary mb-3">
       <span className="oi oi-plus"></span> Create Deck
       </Link>
@@ -61,7 +61,7 @@ const ListDecks = () => {
           })) 
         : (<p>Please create a deck.</p>)
       }
-    </Fragment>
+    </React.Fragment>
   );
 };
 

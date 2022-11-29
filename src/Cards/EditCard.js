@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useHistory, useParams } from'react-router-dom';
 import { readCard, updateCard, readDeck } from '../utils/api';
 import CardForm from './CardForm';
@@ -47,7 +47,7 @@ const EditCard = ({deck, setDeck, url}) => {
     }, [cardId])
 
     return (
-        <Fragment>
+        <React.Fragment>
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -68,7 +68,7 @@ const EditCard = ({deck, setDeck, url}) => {
                 url={url}
                 mode={"Edit"}
             />
-        </Fragment>
+        </React.Fragment>
     )
 }
 

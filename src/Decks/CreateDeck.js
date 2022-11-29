@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from'react-router-dom';
 import { createDeck } from '../utils/api';
 import DeckForm from './DeckForm';
@@ -29,7 +29,7 @@ const CreateDeck = () => {
     }
 
     return (
-        <Fragment>
+        <React.Fragment>
             <nav aria-label="breadcrumb">
                 <ol className="breadcrumb">
                     <li className="breadcrumb-item">
@@ -46,7 +46,7 @@ const CreateDeck = () => {
                 onSubmitHandler={onSubmitHandler} 
                 url={`/`}
             />
-        </Fragment>
+        </React.Fragment>
     )
 }
 

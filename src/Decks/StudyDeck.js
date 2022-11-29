@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useParams, useHistory } from "react-router-dom"
 import { readDeck } from "../utils/api";
 
@@ -34,8 +34,10 @@ const StudyDeck = () => {
                     return data;
                 })
                 .then(data => {
-                    const card = data.cards[0]
-                    setCurrentCard({front: card.front, back: card.back})
+                    if(data.cards.length !== 0){
+                        const card = data.cards[0]
+                        setCurrentCard({front: card.front, back: card.back})
+                    }
                 })
 ;        }
         setDeckAndCards();

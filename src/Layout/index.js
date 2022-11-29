@@ -1,6 +1,4 @@
-import { 
-  Fragment, 
-} from "react";
+import React from "react";
 import { 
   Switch, 
   Route 
@@ -18,7 +16,7 @@ import StudyDeck from "../Decks/StudyDeck";
 function Layout() {
 
   return (
-    <Fragment>
+    <React.Fragment>
       <Header />
       <div className="container">
         <Switch>
@@ -30,7 +28,7 @@ function Layout() {
           <Route><NotFound /></Route>
         </Switch>
       </div>
-    </Fragment>
+    </React.Fragment>
   );
 }
 
