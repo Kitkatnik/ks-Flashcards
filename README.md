@@ -4,7 +4,7 @@
 
 ![screely-1669702672175](https://user-images.githubusercontent.com/5871075/204453588-b736ed83-222f-4ba7-ab14-079a7d7c06d5.png)
 
-[Click Here to Demo](https://th-project-flashcards.netlify.app/)
+[Click Here to Demo](https://flashcards-8h5d.onrender.com)
 
 </div>
 
